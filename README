@@ -1,0 +1,38 @@
+
+NB(1)                     BSD General Commands Manual                    NB(1)
+
+NAME
+     nb -- simple notebook manager
+
+SYNOPSIS
+     nb [n|new] file_name.md
+     nb [s|sync]
+
+DESCRIPTION
+     The nb provides a lightweight interface for accessing and adding notes on
+     command line.
+
+     nb doesn't complain much and tries to work with what is available.
+     fzf(1) is used for fuzzy searching and it is launched by default if no
+     options are given.
+
+     In the case of fzf unavailability, nb simply changes directory to NB_PATH
+
+     If [sync] option is used, nb attempts a add/commit/push cycle on NB_PATH
+     via git(1)
+
+ENVIRONMENT
+     NB_PATH  The location of your notebook folder.
+
+AUTHORS
+     Bharatvaj <bharatvaj@getsh.org>
+
+LICENSE
+     nb is in the public domain.
+
+     To the extent possible under law, the creator of this work has waived all
+     copyright and related or neighboring rights to this work.
+
+           http://creativecommons.org/publicdomain/zero/1.0/
+
+BSD                            October 06, 2021                            BSD

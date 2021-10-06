@@ -1,0 +1,10 @@
+#!/bin/sh
+
+DESTDIR=
+PREFIX="${DESTDIR}/usr/local"
+BINDIR="${PREFIX}/bin"
+MANDIR="${PREFIX}/share/man"
+
+mkdir -p "${BINDIR}" "${MANDIR}/man1"
+install -m0755 nb "${BINDIR}"
+install -m0644 nb.1 "${MANDIR}/man1"

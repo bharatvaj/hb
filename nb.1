@@ -1,0 +1,49 @@
+.Dd October 06, 2021
+.Dt NB 1
+.Os
+.Sh NAME
+.Nm nb
+.Nd simple notebook manager
+.Sh SYNOPSIS
+.Nm
+.Op n|new
+.Ar file_name.md
+.Nm
+.Op s|sync
+.Sh DESCRIPTION
+The
+.Nm
+provides a lightweight interface for accessing and adding notes on command line.
+.Pp
+.Nm
+doesn't complain much and tries to work with what is available.
+.Xr fzf 1
+is used for fuzzy searching and it is launched by default if no options are given.
+.Pp
+In the case of fzf unavailability,
+.Nm
+simply changes directory to NB_PATH
+.Pp
+If
+.Op sync
+option is used,
+.Nm
+attempts a add/commit/push cycle on NB_PATH via
+.Xr git 1
+.Sh ENVIRONMENT
+.Bl -hang -width "NB_PATH"
+.It Ev NB_PATH
+The location of your notebook folder.
+.El
+.Sh AUTHORS
+.An Bharatvaj Aq Mt bharatvaj@getsh.org
+.Sh LICENSE
+.Nm
+is in the public domain.
+.Pp
+To the extent possible under law,
+the creator of this work
+has waived all copyright and related or
+neighboring rights to this work.
+.Pp
+.Lk http://creativecommons.org/publicdomain/zero/1.0/
