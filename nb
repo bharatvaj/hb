@@ -47,7 +47,7 @@ test -z "${EDITOR}" && export EDITOR=vi
 # if folder does not exist
 cd "${NB_PATH}" || nb_fatal_error "NB_PATH is not a directory"
 nb_option=${1}
-shift;
+[ $? -gt 1 ] && shift
 case $nb_option in
     #TODO pass params to nb_browse
     '')nb_browse ;;
