@@ -1,9 +1,8 @@
 #!/bin/sh
 
-DESTDIR=
-PREFIX="${DESTDIR}/usr/local"
-BINDIR="${PREFIX}/bin"
-MANDIR="${PREFIX}/share/man"
+DESTDIR="${DESTDIR}/usr/local"
+BINDIR="${DESTDIR}/bin"
+MANDIR="${DESTDIR}/share/man"
 
 mkdir -p "${BINDIR}" "${MANDIR}/man1"
 install -m0755 nb "${BINDIR}"
