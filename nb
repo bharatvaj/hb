@@ -9,7 +9,7 @@ nb_fatal_error() {
 
 nb_browse() {
 	cd "${NB_PATH}"
-	file="$(${FUZZER})"
+	file="$(find . -type f | ${FUZZER})"
 	[ "${file}" != "" ] && ${EDITOR} "${file}"
 }
 
@@ -50,7 +50,7 @@ nb_usage() {
 
 test -z "${EDITOR}" && { export EDITOR=vi; }
 # TODO detect windows, type on windows invokes a different command, this should be fixed before merging to main
-where "${EDITOR}" >/dev/null 2>/dev/null || { export EDITOR=cat; }
+which "${EDITOR}" >/dev/null 2>/dev/null || { export EDITOR=cat; }
 
 test -d "${NB_PATH}" || { nb_fatal_error "NB_PATH is not a directory"; exit 1; }
 cd "${NB_PATH}" || nb_fatal_error "NB_PATH is not a directory"
