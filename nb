@@ -29,7 +29,7 @@ nb_sync() {
 
 nb_new() {
 	[ -n "$1" ] || nb_fatal_error "usage: nb new <file_name>"
-	${EDITOR} "${NB_PATH}/$2"
+	${EDITOR} "${NB_PATH}/$1"
 }
 
 nb_cp() {
