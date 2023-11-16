@@ -3,56 +3,63 @@
 # nb - simple notebook manager
 
 nb_fatal_error() {
-    echo "nb: $1"
-    exit 1
+	echo "nb: $1"
+	exit 1
 }
 
 nb_browse() {
-    file="$(fzf)"
-    [ "${file}" != "" ] && ${EDITOR} "${file}"
+	cd "${NB_PATH}"
+	file="$(find . -type f | ${FUZZER})"
+	[ "${file}" != "" ] && ${EDITOR} "${file}"
 }
 
 nb_sync() {
-    which git >/dev/null 2>/dev/null || nb_fatal_error "git not available, cannot sync"
+	which git >/dev/null 2>/dev/null || nb_fatal_error "git not available, cannot sync"
 	git fetch
-    git add "${NB_PATH}"
-    git commit -m "$(uname -a)"
-    git pull
+	git add "${NB_PATH}"
+	git commit -m "$(uname -a)"
+	git pull
 	#TODO check for conflicts
-    # if conflict exists, checkout to a
-    # different unique branch
-    # And pull after fetch seems
-    # redundant, replace with merge
-    git push
+	# if conflict exists, checkout to a
+	# different unique branch
+	# And pull after fetch seems
+	# redundant, replace with merge
+	git push
 }
 
 nb_new() {
-    [ -n "$1" ] || nb_fatal_error "usage: nb new <file_name>"
-    ${EDITOR} "${NB_PATH}/$1"
+	[ -n "$1" ] || nb_fatal_error "usage: nb new <file_name>"
+	${EDITOR} "${NB_PATH}/$1"
+}
+
+nb_cp() {
+	# Replace the final argument with $NB_PATH
+	[ -n "$1" ] || nb_fatal_error "usage: nb cp <file1>"
+	cp $* "$NB_PATH"
 }
 
 nb_usage() {
-    [ -n "$1" ] && echo "nb: unknown command $1"
-    printf "Usage: nb [OPTIONS]
+	[ -n "$1" ] && echo "$0: Unknown command $1"
+	printf "Usage: nb [OPTIONS]
+  c, cp     cp <options> file
   n, new    Opens a file in the NB_PATH directory with EDITOR
   s, sync   Attempts a add/commit/push cycle in NB_PATH
   h, help   Prints this help message
 "
 }
 
-test -z "${EDITOR}" && export EDITOR=vi
-#TODO if vi is not found, cat the note
+test -z "${EDITOR}" && { export EDITOR=vi; }
+# TODO detect windows, type on windows invokes a different command
+which "${EDITOR}" >/dev/null 2>/dev/null || { export EDITOR=cat; }
 
-#TODO ask user to clone repo
-# if folder does not exist
+test -d "${NB_PATH}" || { nb_fatal_error "NB_PATH is not a directory"; exit 1; }
 cd "${NB_PATH}" || nb_fatal_error "NB_PATH is not a directory"
 nb_option=${1}
 [ $# -ge 1 ] && shift
 case $nb_option in
-    #TODO pass params to nb_browse
-    '')nb_browse ;;
-    #TODO strip $1
-    n|new) nb_new "$@" ;;
+	'') nb_browse ;;
+	c|cp) nb_cp "$@" ;;
+	n|new) nb_new "$@" ;;
 	s|sync) nb_sync ;;
 	h|help) nb_usage ;;
 	*) nb_usage "$@" ;;

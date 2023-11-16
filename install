@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -x
+
 : ${DESTDIR:=/usr/local}
 BINDIR="${DESTDIR}/bin"
 MANDIR="${DESTDIR}/share/man"
