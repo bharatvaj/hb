@@ -9,7 +9,7 @@ nb_fatal_error() {
 
 nb_browse() {
 	cd "${NB_PATH}"
-	file="$(find . -not -wholename "**/.git*" -type f | ${FUZZER})"
+	file="$(find . -not -wholename "**/.git*" -type f -printf "%T@ %p\n"  | sort -r | cut -d' ' -f 2 | ${FUZZER})"
 	[ "${file}" != "" ] && ${EDITOR} "${file}"
 }
 
@@ -54,7 +54,10 @@ which "${EDITOR}" >/dev/null 2>/dev/null || { export EDITOR=cat; }
 XDG_DATA_HOME="${XDG_DATA_HOME:=$HOME}"
 NB_PATH="${NB_PATH:=$XDG_DATA_HOME/notes}"
 
-test -d "${NB_PATH}" || { nb_fatal_error "NB_PATH is not a directory"; exit 1; }
+: ${XDG_DATA_HOME:=$HOME/.local/share}
+: ${NB_PATH:=$XDG_DATA_HOME/notebook}
+
+test -d "${NB_PATH}" || { nb_fatal_error "NB_PATH: ${NB_PATH} is not a directory"; exit 1; }
 cd "${NB_PATH}" || nb_fatal_error "NB_PATH is not a directory"
 nb_option=${1}
 [ $# -ge 1 ] && shift
