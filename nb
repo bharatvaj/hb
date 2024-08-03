@@ -9,8 +9,23 @@ nb_fatal_error() {
 
 nb_browse() {
 	cd "${NB_PATH}"
-	file="$(find . -not -wholename "**/.git*" -type f -printf "%T@ %p\n"  | sort -r | cut -d' ' -f 2 | ${FUZZER})"
-	[ "${file}" != "" ] && ${EDITOR} "${file}"
+	file="$(find . -name '.git*' -prune -o -type f | cut -d"/" -f2-  | ${FUZZER})"
+	[ "${file}" != "" ] && {
+		echo "${file}" >> .nbhistory;
+		${EDITOR} "${file}";
+	}
+}
+
+nb_recent() {
+	cd "${NB_PATH}"
+	if [ -f ".nbhistory" ]; then
+		file="$(cat .nbhistory | tail -n 1)"
+		test -f "${file}" && {
+			${EDITOR} "${file}";
+			exit 0;
+		}
+	fi
+	nb_fatal_error "No recent history"
 }
 
 nb_sync() {
@@ -44,6 +59,7 @@ nb_usage() {
   c, cp     cp <options> file
   n, new    Opens a file in the NB_PATH directory with EDITOR
   s, sync   Attempts a add/commit/push cycle in NB_PATH
+  r, recent   open the last file that was accessed
   h, help   Prints this help message
 "
 }
@@ -55,7 +71,7 @@ XDG_DATA_HOME="${XDG_DATA_HOME:=$HOME}"
 NB_PATH="${NB_PATH:=$XDG_DATA_HOME/notes}"
 
 : ${XDG_DATA_HOME:=$HOME/.local/share}
-: ${NB_PATH:=$XDG_DATA_HOME/notebook}
+: ${NB_PATH:=$XDG_DATA_HOME/notes}
 
 test -d "${NB_PATH}" || { nb_fatal_error "NB_PATH: ${NB_PATH} is not a directory"; exit 1; }
 cd "${NB_PATH}" || nb_fatal_error "NB_PATH is not a directory"
@@ -66,6 +82,7 @@ case $nb_option in
 	c|cp) nb_cp "$@" ;;
 	n|new) nb_new "$@" ;;
 	s|sync) nb_sync ;;
+	r|recent) nb_recent ;;
 	h|help) nb_usage ;;
 	*) nb_usage "$@" ;;
 esac
