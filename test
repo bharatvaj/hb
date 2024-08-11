@@ -1,0 +1,23 @@
+#!/bin/sh
+
+logfile=test.log
+
+export NB_PATH=sample
+export EDITOR=ls
+export FUZZER="xargs"
+
+test_browse() { FUZZER="echo good_file.txt" ./nb; }
+
+test_browsefail() { ! FUZZER="echo bad_file.txt" ./nb; }
+
+test_nonexistentfile() { ! ./nb n -c nonexistentfile; }
+
+test_existentfile() { ./nb n -c COPYING; }
+
+set -- browse browsefail nonexistentfile existentfile
+date +"==========[%Y/%m/%d %H:%M:%S]==========" >> $logfile
+while [ $# -gt 0 ]; do
+	echo "# Running test ... $1" >> $logfile
+	echo "# Running test ... $1" $(if 1>>$logfile 2>>$logfile "test_$1" ; then echo "Passed"; else echo "Falied"; fi)
+	shift
+done
