@@ -1,8 +1,8 @@
 .Dd October 06, 2021
-.Dt NB 1
+.Dt HB 1
 .Os
 .Sh NAME
-.Nm nb
+.Nm hb
 .Nd simple notebook manager
 .Sh SYNOPSIS
 .Nm
@@ -22,17 +22,17 @@ is used for fuzzy searching and it is launched by default if no options are give
 .Pp
 In the case of fzf unavailability,
 .Nm
-simply changes directory to NB_PATH
+simply changes directory to HB_PATH
 .Pp
 If
 .Op sync
 option is used,
 .Nm
-attempts a add/commit/push cycle on NB_PATH via
+attempts a add/commit/push cycle on HB_PATH via
 .Xr git 1
 .Sh ENVIRONMENT
-.Bl -hang -width "NB_PATH"
-.It Ev NB_PATH
+.Bl -hang -width "HB_PATH"
+.It Ev HB_PATH
 The location of your notebook folder.
 .El
 .Sh AUTHORS

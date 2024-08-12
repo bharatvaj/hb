@@ -2,17 +2,17 @@
 
 logfile=test.log
 
-export NB_PATH=sample
+export HB_PATH=sample
 export EDITOR=ls
 export FUZZER="xargs"
 
-test_browse() { FUZZER="echo good_file.txt" ./nb; }
+test_browse() { FUZZER="echo good_file.txt" ./hb; }
 
-test_browsefail() { ! FUZZER="echo bad_file.txt" ./nb; }
+test_browsefail() { ! FUZZER="echo bad_file.txt" ./hb; }
 
-test_nonexistentfile() { ! ./nb n -c nonexistentfile; }
+test_nonexistentfile() { ! ./hb n -c nonexistentfile; }
 
-test_existentfile() { ./nb n -c COPYING; }
+test_existentfile() { ./hb n -c COPYING; }
 
 set -- browse browsefail nonexistentfile existentfile
 date +"==========[%Y/%m/%d %H:%M:%S]==========" >> $logfile
