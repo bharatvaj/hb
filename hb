@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# hb - simple notebook manager
+# hb - minimalist handbook
 
 hb_fatal_error() {
 	echo "hb: "
