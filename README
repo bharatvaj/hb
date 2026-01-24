@@ -29,8 +29,8 @@ effortless. Start by,
 This creates a note.txt under relative-folder/. Sometimes you may want to
 import a note from your filesystem under hb, To do that use,
     
-    $ hb new -m Downloads/recipe.txt
-    $ hb new -c WorkingDir/somefile.txt
+    $ hb new -m . Downloads/recipe.txt
+    $ hb new -c . WorkingDir/somefile.txt
 
 -m does a move operations, and -c does a copy operation.
 
