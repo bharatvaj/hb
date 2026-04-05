@@ -8,15 +8,19 @@ hb
 
 hb can be used to hold txt databases such as ledger and todo.txt.
 
-hb provides syncing capabilities to your notebook. Either via VCS or rsync.
-
-Additional sync capabilities can be provided in future versions.
+hb provides syncing capabilities to your notebook via git.
 
 You may like hb if you do any of the following,
 
-* Manage personal finance with ledger
-* Write todo's in todo.txt
-* Write blogs
+- Manage personal finance with ledger
+- Write todo's in todo.txt
+- Write zettle
+- Write blogs
+
+How you manage these files is entirely upto you, hb only provides
+a standard interface to access all these files.
+
+*Additional plugin based sync capabilities are planned for future.
 
 Usage
 -----
@@ -28,18 +32,21 @@ effortless. Start by,
 
 This creates a note.txt under $HB_PATH
 
-$HB_PATH is the directory where all notes ends up. If $HB_PATH is not provided,
-".local/share/notes" is used as $HB_PATH.
+$HB_PATH is the directory where all notes ends up. If $HB_PATH is not
+provided, ".local/share/notes" is used as $HB_PATH.
 
 Sometimes you may want to import a note from your filesystem under hb.
 To do that use,
     
     $ hb new -m . Downloads/recipe.txt
     $ hb new -c . WorkingDir/somefile.txt
+    $ hb new -m zettle a-new-idea.md
 
 -m does a move operations, and -c does a copy operation.
 
-This simply utilizes the mv and cp commands in UNIX.
+This simply utilizes the mv and cp commands in UNIX. So in the above
+example, a-new-idea.md will either be placed in zettle/ if the directory
+exists, else $HB_PATH/zettle will simplify be replaced as a file.
 
 You may find the -m and -c options to edit the directories cumbersome, and
 there is currently no way to add new subdirectories, to do it manually, you
