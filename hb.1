@@ -1,19 +1,23 @@
-.Dd October 06, 2021
+.Dd April 06, 2026
 .Dt HB 1
 .Os
 .Sh NAME
 .Nm hb
-.Nd simple notebook manager
+.Nd Handbook for UNIX
 .Sh SYNOPSIS
 .Nm
+.Op e|edit
+.Ar [file|directory]
+.Nm
 .Op n|new
-.Ar file_name.md
+.Ar [-c|-m] filename
 .Nm
 .Op s|sync
-.Sh DESCRIPTION
-The
+.Ar [commit message]
 .Nm
-provides a lightweight interface for accessing and adding notes on command line.
+.Sh DESCRIPTION
+.Nm
+provides a lightweight interface for accessing and adding notes on the command line.
 .Pp
 .Nm
 doesn't complain much and tries to work with what is available.
@@ -33,10 +37,30 @@ attempts a add/commit/push cycle on HB_PATH via
 .Sh ENVIRONMENT
 .Bl -hang -width "HB_PATH"
 .It Ev HB_PATH
-The location of your notebook folder.
+The location of your notebook folder. Default: $XDG_DATA_HOME/notes
+.It Ev HB_HIST
+The location of the history file. Default: $HB_PATH/.hbhistory
+.El
+.Sh Other variables
+.Bl -hang -width "HB_PATH"
+.It Ev FM
+If
+.Op edit
+receives a directory, FM is used. Default: cd
+.It Ev FUZZER
+Program used for picking files. Default: fzf
 .El
 .Sh AUTHORS
-.An Bharatvaj Aq Mt bharatvaj@nonplanar.org
+.An Bharatvaj Hemanth Aq Mt bhp@nply.org
+.Sh EXAMPLES
+# Open last edited file. This will open the last entry in $HB_HIST
+    $ hb e
+
+# Browse notes
+    $ hb e .
+
+# Move files to notes/zettle and edit the zettle/ folder
+    $ hb n -m zettle/ idea1.org idea2.md
 .Sh LICENSE
 .Nm
 is in the public domain.

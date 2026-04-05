@@ -1,16 +1,16 @@
 hb
 ==
-    _______ 
-   |x--|   |
-   |o--|1--|
-   |   |2--|
+    ______.--.
+   |x--|  |-@|
+   |o--|1-|%$|
+   |   |2-`--'
    |___|__/ 
 
 hb can be used to hold txt databases such as ledger and todo.txt.
 
 hb provides syncing capabilities to your notebook. Either via VCS or rsync.
 
-Additional sync capabilities can be provided by 
+Additional sync capabilities can be provided in future versions.
 
 You may like hb if you do any of the following,
 
@@ -21,28 +21,52 @@ You may like hb if you do any of the following,
 Usage
 -----
 
-hb is a framework that makes storing and retrieving text related information
+hb is a tool that makes storing and retrieving text related information
 effortless. Start by,
 
-     $ hb new relative-folder/note.txt
+     $ hb new note.txt
 
-This creates a note.txt under relative-folder/. Sometimes you may want to
-import a note from your filesystem under hb, To do that use,
+This creates a note.txt under $HB_PATH
+
+$HB_PATH is the directory where all notes ends up. If $HB_PATH is not provided,
+".local/share/notes" is used as $HB_PATH.
+
+Sometimes you may want to import a note from your filesystem under hb.
+To do that use,
     
     $ hb new -m . Downloads/recipe.txt
     $ hb new -c . WorkingDir/somefile.txt
 
 -m does a move operations, and -c does a copy operation.
 
+This simply utilizes the mv and cp commands in UNIX.
+
+You may find the -m and -c options to edit the directories cumbersome, and
+there is currently no way to add new subdirectories, to do it manually, you
+can use,
+
+    $ hb e .
+
+This will open the $HB_PATH dir in $FM.
+
 After populating files inside hb, you can access them with,
 
     $ hb
 
-Will start a fuzzy matcher if $FUZZER is set.  If $FUZZER is empty or not
-found in $PATH. hb simply does `cd` to "$HB_PATH"
+This will start a fuzzy matcher if $FUZZER is set. If $FUZZER is empty or not
+found in $PATH. hb will fail with an error.
 
-$HB_PATH should be pointed to the directory, where all the notes will end up.
-If $HB_PATH is not provided, the ".local/share/notes" is used as $HB_PATH.
+To access a particular file,
+
+    $ hb e recipe.txt
+    $ hb e somefile.txt
+
+Every edit operation gets recorded in $HB_HIST, which by default sits in
+$HB_PATH/.hbhistory. To edit the last edited file,
+
+    $ hb e
+
+And finally,
 
     $ hb sync
 
